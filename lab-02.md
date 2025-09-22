@@ -6,7 +6,8 @@ Mario Sanchez
 ## Chargement des packages et des données
 
 ``` r
-library(tidyverse) 
+library(tidyverse)
+library(ggplot2)
 ```
 
 ``` r
@@ -26,16 +27,30 @@ plastic_waste <- plastic_waste %>%
 ### Exercise 1
 
 ``` r
-# insert code here
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap)) +
+  geom_histogram(binwidth = 0.2, fill = "black", color = "black") +
+  facet_wrap(~ continent) +
+  labs(
+    title = "Distribution du plastique par habitant selon le continent",
+    x = "Plastique par habitant (kg)",
+    y = "Fréquence"
+  ) +
+  theme_minimal()
 ```
+
+![](lab-02_files/figure-gfm/plastic-waste-continent-1.png)<!-- -->
 
 ### Exercise 2
 
 ``` r
-# insert code here
+ggplot(plastic_waste, aes(x = plastic_waste_per_cap, colour= continent, fill=continent)) +
+  geom_density(alpha=0.5)
 ```
 
-Réponse à la question…
+![](lab-02_files/figure-gfm/plastic-waste-density-1.png)<!-- -->
+
+Color/fill c’est pour des données spécifiques ex: un continent, tandis
+qu’alpha c’est pour changer tout le graphique en meme temps
 
 ### Exercise 3
 
