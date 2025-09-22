@@ -56,43 +56,89 @@ ggplot(plastic_waste, aes(x = plastic_waste_per_cap, colour= continent, fill=con
 Boxplot:
 
 ```{r plastic-waste-boxplot}
-# insert code here
+ggplot(plastic_waste, aes(x=continent, y = plastic_waste_per_cap)) +
+  geom_boxplot()
 ```
 
 Violin plot:
 
 ```{r plastic-waste-violin}
-# insert code here
+ggplot(plastic_waste, aes(x = continent, y = plastic_waste_per_cap)) +
+  geom_violin()
 ```
 
-Réponse à la question...
+Violin plots montre la densité des points tandis que le boxplot non
 
 ### Exercise 4
 
 
 ```{r plastic-waste-mismanaged}
-# insert code here
-```
+ggplot(plastic_waste, aes(x =plastic_waste_per_cap, y = mismanaged_plastic_waste_per_cap, colour=continent)) + 
+  geom_point() 
 
-Réponse à la question...
+```
+On voir que les pays qui ont le moins de déchets ont tendance a moins bien gerer leurs dechets(asie et afrique). Tandis que les autres continents ont plus de déchets mais les gerent mieux
 
 ### Exercise 5
 
 
 ```{r plastic-waste-population-total}
-# insert code here
+ggplot(plastic_waste, aes(x = total_pop, y = plastic_waste_per_cap, colour=continent)) +
+  geom_point(alpha = 0.6)+
+  labs(
+    title = "Relation déchets plastiques vs population",
+    x = "Population",
+    y = "Déchets plastiques par habitant"
+  ) +
+  theme_minimal()
+
+
 ```
 
 ```{r plastic-waste-population-coastal}
-# insert code here
+library(ggplot2)
+
+ggplot(plastic_waste, aes(x = coastal_pop, y = plastic_waste_per_cap, colour=continent)) +
+  geom_point(alpha = 0.6) +
+  labs(
+    title = "Régression linéaire : population ~ déchets plastiques par habitant",
+    x = "Population côtière",
+    y = "Dechets plastiques")
+
 ```
 
-Réponse à la question...
+Non, les deux ont pas de relation forte, juste la chine qui influence la perception de la relation
+
 
 ## Conclusion
 
 Recréez la visualisation:
 
 ```{r recreate-viz}
+library(ggplot2)
+
+# Calcul de la proportion de population côtière
+df <- read.csv("data/plastic-waste.csv")
+
+# Calcul de la proportion de population côtière
+df$proportion_cotiere <- df$coastal_pop / df$total_pop
+
+# Graphique
+ggplot(df, aes(x = proportion_cotiere,
+               y = plastic_waste_per_cap,
+               color = continent)) +
+  geom_point() +
+  ylim(0,0.8)+
+  geom_smooth(method = "loess", se = TRUE, color = "black") +
+  labs(
+    title = "Quantité de déchets plastiques vs Proportion de la population côtière",
+    subtitle = "Selon le continent",
+    x = "Proportion de la population côtière (Coastal / total population)",
+    y = "Nombre de déchets plastiques par habitant"
+  ) +
+  theme_minimal()
+
+
+
 # insert code here
 ```
